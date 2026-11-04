@@ -160,6 +160,7 @@ body.collapsed #checklist,body.collapsed #completeBanner,body.collapsed #alertBa
 <div id="histModal"><div class="hist-box"><div class="hist-hdr"><span class="hist-title" id="histTitle">📋 履歴（直近30日）</span><button class="hist-close" id="histClose">✕ 閉じる</button></div><div class="hist-list" id="histList"></div></div></div>
 <div id="resetBanner"></div>
 
+
 <script>
 'use strict';
 const DEFAULT_ITEMS={
@@ -220,6 +221,7 @@ function updProg(){const raw=getAllRaw(currentShift);const total=raw.shorts.leng
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function renderTags(tags,i){if(!tags||!tags[i]||!tags[i].length)return'';return'<span class="tags">'+tags[i].map(t=>`<span class="tag ${TAG_DEF[t].cls}">${TAG_DEF[t].label}</span>`).join('')+'</span>'}
 
+
 function buildList(){const s=SHIFTS[currentShift];const data=sdat(currentShift);const el=document.getElementById('checklist');const wip=document.getElementById('wip');const addBtn=document.getElementById('addItemBtn');el.innerHTML='';
 const base=getBaseItems(currentShift);if(!base){el.style.display='none';wip.classList.add('on');addBtn.style.display='none';document.getElementById('completeBanner').classList.remove('on');updProg();return}
 el.style.display='flex';wip.classList.remove('on');addBtn.style.display='block';
@@ -278,6 +280,7 @@ document.getElementById('addNo').addEventListener('click',()=>{document.getEleme
 document.getElementById('addModal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('addModal').classList.remove('on')});
 document.getElementById('addYes').addEventListener('click',()=>{const v=document.getElementById('addInput').value.trim();if(!v)return;const custom=getCustom(currentShift);custom.push({title:v});saveCustom(currentShift,custom);const order=getOrder(currentShift);if(order){const raw=getAllRaw(currentShift);order.push(raw.shorts.length-1);saveOrder(currentShift,order)}document.getElementById('addModal').classList.remove('on');buildList()});
 document.getElementById('addInput').addEventListener('keydown',e=>{if(e.key==='Enter'){document.getElementById('addYes').click()}});
+
 
 function checkAlert(){if(currentShift!=='early'||alertFired)return;const n=new Date();if(n.getHours()>=11){fireAlert();return}setTimeout(()=>{const now=new Date();if(now.getHours()>=11&&!alertFired)fireAlert()},((11-n.getHours())*60-n.getMinutes())*60000)}
 function fireAlert(){if(alertFired)return;alertFired=true;const s=SHIFTS.early;if(!s.alertItems.length)return;document.getElementById('alertBanner').classList.add('on');const ordered=getOrderedItems('early');s.alertItems.forEach(origIdx=>{const pos=ordered.order.indexOf(origIdx);if(pos===-1)return;const li=document.querySelectorAll('.item')[pos];if(li&&!li.classList.contains('done')){li.classList.add('alert-hl','alert-blink')}});if('Notification'in window&&Notification.permission==='granted'){new Notification('⏰ 早番アラート',{body:'STOWER・FC移動の準備をしてください！'})}blinkTimer=setTimeout(()=>{document.querySelectorAll('.alert-blink').forEach(el=>el.classList.remove('alert-blink'))},30000)}
