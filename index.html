@@ -171,17 +171,17 @@ short:['21時配置作成 ⇒ 夜勤LH','夜勤実力値共有（Slack）','14�
 details:['電欠に合わせて配置移動必須。夜勤LH更新',null,'C勤休憩戻り、移動がある場合、F勤の15分休憩後、移動依頼','F5は休憩ないので注意','BOT配置','F5：16時からの配置。B8等々：15分休憩後の配置。F8：1時間休憩後の配置','B8等々：最新の配置からIDコピして16時に貼る→無線でB8の15分休憩後の配置案内。F8：最新の配置からIDコピして17時に貼る→無線で1時間休憩後の配置案内','E勤朝礼更新・トレーナー当てる・Operation共有',null,null,'仮Plan見ながら作成。Day浅、FCTR含めて','変更ある場合、20時のF勤は配置移動案内',null,'遅番トレーナー当てる','配置変更ある場合が多いので50分くらいまで待ってから共有','コンソリがある場合、エリジ付与依頼、間接登録'],
 tags:[['lh'],['kyou'],['toroku'],['toroku'],['toroku'],['annai'],['annai'],['kyou'],null,['annai'],['lh'],['annai'],['annai'],['kyou'],['kyou'],['toroku']]},
 night:{
-short:['夜勤電欠確認 ⇒ LH','開幕配置共有','無断電欠確認','コンソリ登録','早番配置作成（9,12,13,14時）⇒ LH','AR実力値送信','IXD Plan報告','SPPRTRカウント','早退・電欠 ⇒ LH','OT案内（FC・STOWER）','早番朝礼アサイン・ROLE共有'],
-details:['電欠に合わせて配置移動必須',null,null,'追加でコンソリ発生した際には階層に合わせてエリジ付与お願い','Day浅、FCTR考えて作成。まとめて日勤LH更新',null,null,null,null,'OT発生時、全シフト30時から残業反映後、FC・STOWERさんに案内','早番朝礼の場所アサインとROLE共有を行う'],
-tags:[['lh'],['kyou'],null,['toroku'],['lh'],['toroku'],['toroku'],null,['lh'],['annai'],['kyou']]}
+short:['夜勤電欠確認 ⇒ LH','開幕配置共有','無断電欠確認','コンソリ登録','早番配置作成（9,12,13,14時）⇒ LH','工程別移動依頼','9時・12時配置作成','13時・14時配置作成','休憩後配置作成','休憩後配置案内','休憩後配置operation共有','ーお昼休憩ー','OT集約登録','OT配置作成（30デジコ）','AR実力値送信','IXD Plan報告','SPPRTRカウント','早退・電欠 ⇒ LH','OT案内（FC・STOWER）','早番朝礼アサイン・ROLE共有','朝礼資料作成'],
+details:['電欠に合わせて配置移動必須',null,null,'追加でコンソリ発生した際には階層に合わせてエリジ付与お願い','Day浅、FCTR考えて作成。まとめて日勤LH更新','各工程別に移動要請がある場合に移動させる','仮日勤PLAN確認して必要に応じてByName共有','仮日勤PLAN確認して必要に応じてByName共有','仮日勤PLAN確認して必要に応じてByName共有',null,null,null,null,null,null,null,null,null,'OT発生時、全シフト30時から残業反映後、FC・STOWERさんに案内','早番朝礼の場所アサインとROLE共有を行う',null],
+tags:[['lh'],['kyou'],null,['toroku'],['lh'],['annai'],['toroku'],['toroku'],['toroku'],['annai'],['kyou'],null,['toroku'],['toroku'],['toroku'],['toroku'],null,['lh'],['annai'],['kyou'],['toroku']]}
 };
 const SHIFTS={
 early:{label:'☀️ 早番',complete:'☀️ お疲れ様でした！',resetHour:5,resetMin:50,alertItems:[12,13],
-sk:'cl_early_data_v5',hk:'cl_early_hist_v5',rk:'cl_early_rdate_v5',mk:'cl_early_smemo_v5',ck:'cl_early_custom_v5',ok:'cl_early_order_v5'},
+sk:'cl_early_data_v7',hk:'cl_early_hist_v7',rk:'cl_early_rdate_v7',mk:'cl_early_smemo_v7',ck:'cl_early_custom_v7',ok:'cl_early_order_v7'},
 late:{label:'🌤️ 遅番',complete:'🌤️ お疲れ様でした！',resetHour:11,resetMin:50,alertItems:[],
-sk:'cl_late_data_v5',hk:'cl_late_hist_v5',rk:'cl_late_rdate_v5',mk:'cl_late_smemo_v5',ck:'cl_late_custom_v5',ok:'cl_late_order_v5'},
+sk:'cl_late_data_v7',hk:'cl_late_hist_v7',rk:'cl_late_rdate_v7',mk:'cl_late_smemo_v7',ck:'cl_late_custom_v7',ok:'cl_late_order_v7'},
 night:{label:'🌙 夜勤',complete:'🌙 お疲れ様でした！',resetHour:20,resetMin:50,alertItems:[],
-sk:'cl_night_data_v5',hk:'cl_night_hist_v5',rk:'cl_night_rdate_v5',mk:'cl_night_smemo_v5',ck:'cl_night_custom_v5',ok:'cl_night_order_v5'}
+sk:'cl_night_data_v7',hk:'cl_night_hist_v7',rk:'cl_night_rdate_v7',mk:'cl_night_smemo_v7',ck:'cl_night_custom_v7',ok:'cl_night_order_v7'}
 };
 const TAG_DEF={lh:{cls:'tag-lh',label:'🔴LH'},kyou:{cls:'tag-kyou',label:'📨共有'},annai:{cls:'tag-annai',label:'📻案内'},toroku:{cls:'tag-toroku',label:'📎登録'}};
 const WD=['日','月','火','水','木','金','土'];
