@@ -8,9 +8,9 @@
 <title>業務チェックリスト - QCB4 AR Store</title>
 <style>
 :root{--c:#2563EB;--c-l:#EFF6FF;--c-m:#BFDBFE;--c-d:#1D4ED8;--border:#E5E7EB;--text:#111827;--sub:#6B7280;--done-bg:#F3F4F6;--done-fg:#9CA3AF;--red:#EF4444;--radius:12px;--rs:6px;--shadow:0 1px 3px rgba(0,0,0,.07)}
-body.shift-early{--c:#2563EB;--c-l:#EFF6FF;--c-m:#BFDBFE;--c-d:#1D4ED8;background:#EBF5FF}
-body.shift-late{--c:#EA580C;--c-l:#FFF7ED;--c-m:#FED7AA;--c-d:#C2410C;background:#FFF4E6}
-body.shift-night{--c:#7C3AED;--c-l:#F5F3FF;--c-m:#DDD6FE;--c-d:#6D28D9;background:#F3EEFF}
+body.shift-early{--c:#2563EB;--c-l:#EFF6FF;--c-m:#BFDBFE;--c-d:#1D4ED8;--custom-bg:#E0EDFF;--custom-border:#93C5FD;background:#EBF5FF}
+body.shift-late{--c:#EA580C;--c-l:#FFF7ED;--c-m:#FED7AA;--c-d:#C2410C;--custom-bg:#FFF0E0;--custom-border:#FDBA74;background:#FFF4E6}
+body.shift-night{--c:#7C3AED;--c-l:#F5F3FF;--c-m:#DDD6FE;--c-d:#6D28D9;--custom-bg:#EDE5FF;--custom-border:#C4B5FD;background:#F3EEFF}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#F8FAFC;color:var(--text);font-family:'M PLUS Rounded 1c','Hiragino Kaku Gothic ProN','Meiryo',sans-serif;font-size:13px;min-height:100vh;margin:0;overflow-x:hidden}
 .page-wrap{display:flex;justify-content:center;align-items:flex-start;gap:12px;padding:0 12px;min-height:100vh}
@@ -50,6 +50,8 @@ body.shift-early .prog-fill,body.shift-late .prog-fill,body.shift-night .prog-fi
 #wip{display:none;margin:32px 16px;text-align:center;color:var(--sub);font-size:.88rem;line-height:2}#wip.on{display:block}
 #checklist{list-style:none;padding:8px;display:flex;flex-direction:column;gap:5px;width:100%}
 .item{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;width:100%;transition:transform .15s,box-shadow .15s,border-color .15s}
+.item.custom-item{background:var(--custom-bg);border-color:var(--custom-border)}
+.item.custom-item.done{background:var(--done-bg);border-color:#E5E7EB}
 .item:hover:not(.done):not(.dragging){border-color:var(--c-m);box-shadow:0 2px 8px rgba(0,0,0,.1)}.item.done{background:var(--done-bg);border-color:#E5E7EB;box-shadow:none}
 .item.dragging{opacity:.85;box-shadow:0 8px 24px rgba(0,0,0,.18);border-color:var(--c);z-index:10;transform:scale(1.02)}
 .item.drag-over-top{border-top:3px solid var(--c)!important}.item.drag-over-bottom{border-bottom:3px solid var(--c)!important}
@@ -171,17 +173,17 @@ short:['21時配置作成 ⇒ 夜勤LH','夜勤実力値共有（Slack）','14�
 details:['電欠に合わせて配置移動必須。夜勤LH更新',null,'C勤休憩戻り、移動がある場合、F勤の15分休憩後、移動依頼','F5は休憩ないので注意','BOT配置','F5：16時からの配置。B8等々：15分休憩後の配置。F8：1時間休憩後の配置','B8等々：最新の配置からIDコピして16時に貼る→無線でB8の15分休憩後の配置案内。F8：最新の配置からIDコピして17時に貼る→無線で1時間休憩後の配置案内','E勤朝礼更新・トレーナー当てる・Operation共有',null,null,'仮Plan見ながら作成。Day浅、FCTR含めて','変更ある場合、20時のF勤は配置移動案内',null,'遅番トレーナー当てる','配置変更ある場合が多いので50分くらいまで待ってから共有','コンソリがある場合、エリジ付与依頼、間接登録'],
 tags:[['lh'],['kyou'],['toroku'],['toroku'],['toroku'],['annai'],['annai'],['kyou'],null,['annai'],['lh'],['annai'],['annai'],['kyou'],['kyou'],['toroku']]},
 night:{
-short:['夜勤電欠確認 ⇒ LH','開幕配置共有','コンソリ登録','AR実力値送信','他工程移動依頼対応','9時・12時配置作成','13時・14時配置作成','休憩後配置作成','休憩後配置案内','休憩後配置operation共有','ーお昼休憩ー','OT集約登録','OT配置作成（30デジコ）','IXD Plan報告','SPPRTRカウント','早退・電欠 ⇒ LH','OT案内（FC・STOWER）','早番朝礼アサイン・ROLE共有','朝礼資料作成'],
+short:['夜勤電欠確認 ⇒ LH','開幕配置共有','コンソリ登録','AR実力値送信','他工程移動依頼対応','9時・12時配置作成','13時・14時配置作成','お昼休憩後配置作成','お昼休憩後配置案内','お昼休憩後配置operation共有','ーお昼休憩ー','OT集約登録','OT配置作成（30デジコ）','IXD Plan報告','SPPRTRカウント','早退・電欠 ⇒ LH','OT案内（FC・STOWER）','早番朝礼アサイン・ROLE共有','朝礼資料作成'],
 details:['電欠に合わせて配置移動必須',null,'追加でコンソリ発生した際には階層に合わせてエリジ付与お願い',null,'各工程別に移動要請がある場合に対応する','仮日勤PLAN確認して必要に応じてByName共有','仮日勤PLAN確認して必要に応じてByName共有','仮日勤PLAN確認して必要に応じてByName共有',null,null,null,null,null,null,null,null,'OT発生時、全シフト30時から残業反映後、FC・STOWERさんに案内','早番朝礼の場所アサインとROLE共有を行う',null],
 tags:[['lh'],['kyou'],['toroku'],['toroku'],['annai'],['toroku'],['toroku'],['toroku'],['annai'],['kyou'],null,['toroku'],['toroku'],['toroku'],null,['lh'],['annai'],['kyou'],['toroku']]}
 };
 const SHIFTS={
 early:{label:'☀️ 早番',complete:'☀️ お疲れ様でした！',resetHour:5,resetMin:50,alertItems:[12,13],
-sk:'cl_early_data_v8',hk:'cl_early_hist_v8',rk:'cl_early_rdate_v8',mk:'cl_early_smemo_v8',ck:'cl_early_custom_v8',ok:'cl_early_order_v8'},
+sk:'cl_early_data_v9',hk:'cl_early_hist_v9',rk:'cl_early_rdate_v9',mk:'cl_early_smemo_v9',ck:'cl_early_custom_v9',ok:'cl_early_order_v9'},
 late:{label:'🌤️ 遅番',complete:'🌤️ お疲れ様でした！',resetHour:11,resetMin:50,alertItems:[],
-sk:'cl_late_data_v8',hk:'cl_late_hist_v8',rk:'cl_late_rdate_v8',mk:'cl_late_smemo_v8',ck:'cl_late_custom_v8',ok:'cl_late_order_v8'},
+sk:'cl_late_data_v9',hk:'cl_late_hist_v9',rk:'cl_late_rdate_v9',mk:'cl_late_smemo_v9',ck:'cl_late_custom_v9',ok:'cl_late_order_v9'},
 night:{label:'🌙 夜勤',complete:'🌙 お疲れ様でした！',resetHour:20,resetMin:50,alertItems:[],
-sk:'cl_night_data_v8',hk:'cl_night_hist_v8',rk:'cl_night_rdate_v8',mk:'cl_night_smemo_v8',ck:'cl_night_custom_v8',ok:'cl_night_order_v8'}
+sk:'cl_night_data_v9',hk:'cl_night_hist_v9',rk:'cl_night_rdate_v9',mk:'cl_night_smemo_v9',ck:'cl_night_custom_v9',ok:'cl_night_order_v9'}
 };
 const TAG_DEF={lh:{cls:'tag-lh',label:'🔴LH'},kyou:{cls:'tag-kyou',label:'📨共有'},annai:{cls:'tag-annai',label:'📻案内'},toroku:{cls:'tag-toroku',label:'📎登録'}};
 const WD=['日','月','火','水','木','金','土'];
@@ -226,7 +228,7 @@ el.style.display='flex';wip.classList.remove('on');addBtn.style.display='block';
 const ordered=getOrderedItems(currentShift);const baseLen=base.short.length;
 ordered.shorts.forEach((title,i)=>{
 const origIdx=ordered.order[i];const d=data[`t${origIdx}`]||{};const done=!!d.checked;const memo=d.memo||'';const det=ordered.details[i]||null;const isCustom=origIdx>=baseLen;
-const li=document.createElement('div');li.className='item'+(done?' done':'');li.dataset.idx=origIdx;li.dataset.pos=i;li.draggable=true;
+const li=document.createElement('div');li.className='item'+(done?' done':'')+(isCustom?' custom-item':'');li.dataset.idx=origIdx;li.dataset.pos=i;li.draggable=true;
 let html=`<div class="item-row"><span class="drag-handle" title="ドラッグで並び替え">⠿</span><span class="num">${i+1}</span><label class="chk"><input type="checkbox"${done?' checked':''}><span class="chk-box">✓</span></label><div class="lbl-wrap"><span class="lbl">${esc(title)}</span>${renderTags(ordered.tags,i)}</div>`;
 if(det)html+=`<button class="detail-btn" data-i="${i}" data-orig="${origIdx}">▶</button>`;
 html+=`<button class="mbtn" data-i="${i}" data-orig="${origIdx}">✎</button>`;
