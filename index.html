@@ -98,7 +98,7 @@ body.shift-early .prog-fill,body.shift-late .prog-fill,body.shift-night .prog-fi
 body.collapsed #checklist,body.collapsed #completeBanner,body.collapsed #alertBanner,body.collapsed #wip,body.collapsed .footer,body.collapsed .add-item-btn{display:none}
 .footer{padding:10px 8px 6px;display:flex;justify-content:center;gap:8px}
 .reset-btn{background:#fff;border:1.5px solid #FCA5A5;color:var(--red);font-family:inherit;font-size:.75rem;font-weight:700;padding:6px 20px;border-radius:var(--radius);cursor:pointer;box-shadow:var(--shadow)}
-.reset-btn:hover{background:#FEF2F2;border-color:var(--red)}
+.reset-btn:hover{background:#[MAC_ADDRESS];border-color:var(--red)}
 .order-reset-btn{background:#fff;border:1.5px solid var(--c-m);color:var(--c);font-family:inherit;font-size:.75rem;font-weight:700;padding:6px 12px;border-radius:var(--radius);cursor:pointer;box-shadow:var(--shadow)}
 .order-reset-btn:hover{background:var(--c-l);border-color:var(--c)}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center;padding:16px}.overlay.on{display:flex}
@@ -114,7 +114,7 @@ body.collapsed #checklist,body.collapsed #completeBanner,body.collapsed #alertBa
 .hist-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .hist-title{font-size:.88rem;font-weight:800;color:var(--c-d)}
 .hist-close{background:none;border:1.5px solid var(--border);color:var(--sub);border-radius:var(--rs);padding:2px 8px;font-size:.7rem;font-weight:700;font-family:inherit;cursor:pointer}
-.hist-close:hover{background:#FEF2F2;border-color:var(--red);color:var(--red)}
+.hist-close:hover{background:#[MAC_ADDRESS];border-color:var(--red);color:var(--red)}
 .hist-list{display:flex;flex-direction:column;gap:5px;max-height:75vh;overflow-y:auto}
 .hist-item{border:1.5px solid var(--border);border-radius:var(--rs);overflow:hidden}
 .hist-item-hdr{display:flex;align-items:center;gap:7px;padding:7px 9px;background:#F9FAFB;cursor:pointer;transition:.12s}
@@ -159,6 +159,7 @@ body.collapsed #checklist,body.collapsed #completeBanner,body.collapsed #alertBa
 <div class="memo-pad-title"><span>📝</span> 業務メモ</div>
 <div class="memo-toolbar" id="memoToolbar">
 <button id="tbBold" title="太字 (Ctrl+B)"><b>B</b></button>
+<button id="tbStrike" title="取り消し線"><s>S</s></button>
 <button id="tbHighlight" title="ハイライト">🖊️</button>
 <div class="sep"></div>
 <button id="tbUl" title="箇条書き">•</button>
@@ -193,11 +194,11 @@ tags:[['lh'],['kyou'],['toroku'],['toroku'],['annai'],['toroku'],['toroku'],['to
 };
 const SHIFTS={
 early:{label:'☀️ 早番',complete:'☀️ お疲れ様でした！',resetHour:5,resetMin:50,alertItems:[12,13],
-sk:'cl_early_data_v11',hk:'cl_early_hist_v11',rk:'cl_early_rdate_v11',mk:'cl_early_smemo_v11',ck:'cl_early_custom_v11',ok:'cl_early_order_v11'},
+sk:'cl_early_data_v12',hk:'cl_early_hist_v12',rk:'cl_early_rdate_v12',mk:'cl_early_smemo_v12',ck:'cl_early_custom_v12',ok:'cl_early_order_v12'},
 late:{label:'🌤️ 遅番',complete:'🌤️ お疲れ様でした！',resetHour:11,resetMin:50,alertItems:[],
-sk:'cl_late_data_v11',hk:'cl_late_hist_v11',rk:'cl_late_rdate_v11',mk:'cl_late_smemo_v11',ck:'cl_late_custom_v11',ok:'cl_late_order_v11'},
+sk:'cl_late_data_v12',hk:'cl_late_hist_v12',rk:'cl_late_rdate_v12',mk:'cl_late_smemo_v12',ck:'cl_late_custom_v12',ok:'cl_late_order_v12'},
 night:{label:'🌙 夜勤',complete:'🌙 お疲れ様でした！',resetHour:20,resetMin:50,alertItems:[],
-sk:'cl_night_data_v11',hk:'cl_night_hist_v11',rk:'cl_night_rdate_v11',mk:'cl_night_smemo_v11',ck:'cl_night_custom_v11',ok:'cl_night_order_v11'}
+sk:'cl_night_data_v12',hk:'cl_night_hist_v12',rk:'cl_night_rdate_v12',mk:'cl_night_smemo_v12',ck:'cl_night_custom_v12',ok:'cl_night_order_v12'}
 };
 const TAG_DEF={lh:{cls:'tag-lh',label:'🔴LH'},kyou:{cls:'tag-kyou',label:'📨共有'},annai:{cls:'tag-annai',label:'📻案内'},toroku:{cls:'tag-toroku',label:'📎登録'}};
 const WD=['日','月','火','水','木','金','土'];
@@ -231,11 +232,12 @@ function saveMemo(){localStorage.setItem(SHIFTS[currentShift].mk,document.getEle
 document.getElementById('sideMemo').addEventListener('input',saveMemo);
 
 document.getElementById('tbBold').addEventListener('click',function(e){e.preventDefault();document.execCommand('bold',false,null);document.getElementById('sideMemo').focus();updateToolbar()});
-document.getElementById('tbHighlight').addEventListener('click',function(e){e.preventDefault();const sel=window.getSelection();if(sel.rangeCount&&!sel.isCollapsed){const range=sel.getRangeAt(0);const span=document.createElement('span');span.style.backgroundColor='#FEF08A';span.style.borderRadius='2px';span.style.padding='0 2px';range.surroundContents(span);saveMemo()}document.getElementById('sideMemo').focus()});
+document.getElementById('tbStrike').addEventListener('click',function(e){e.preventDefault();document.execCommand('strikeThrough',false,null);document.getElementById('sideMemo').focus();saveMemo()});
+document.getElementById('tbHighlight').addEventListener('click',function(e){e.preventDefault();const sel=window.getSelection();if(sel.rangeCount&&!sel.isCollapsed){const range=sel.getRangeAt(0);const parent=range.commonAncestorContainer.parentElement;if(parent&&parent.style&&parent.style.backgroundColor==='rgb(254, 240, 138)'){const text=document.createTextNode(parent.textContent);parent.parentNode.replaceChild(text,parent)}else{const span=document.createElement('span');span.style.backgroundColor='#FEF08A';span.style.borderRadius='2px';span.style.padding='0 2px';range.surroundContents(span)}saveMemo()}document.getElementById('sideMemo').focus()});
 document.getElementById('tbUl').addEventListener('click',function(e){e.preventDefault();document.execCommand('insertUnorderedList',false,null);document.getElementById('sideMemo').focus();saveMemo()});
 document.getElementById('tbOl').addEventListener('click',function(e){e.preventDefault();document.execCommand('insertOrderedList',false,null);document.getElementById('sideMemo').focus();saveMemo()});
 
-function updateToolbar(){document.getElementById('tbBold').classList.toggle('active',document.queryCommandState('bold'))}
+function updateToolbar(){document.getElementById('tbBold').classList.toggle('active',document.queryCommandState('bold'));document.getElementById('tbStrike').classList.toggle('active',document.queryCommandState('strikeThrough'))}
 document.getElementById('sideMemo').addEventListener('keyup',updateToolbar);
 document.getElementById('sideMemo').addEventListener('mouseup',updateToolbar);
 
