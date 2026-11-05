@@ -17,12 +17,19 @@ body{background:#F8FAFC;color:var(--text);font-family:'M PLUS Rounded 1c','Hirag
 .checklist-col{width:350px;min-width:280px;max-width:350px;flex-shrink:0;padding-bottom:48px}
 .memo-col{width:280px;min-width:200px;max-width:320px;flex-shrink:0;position:sticky;top:12px;height:calc(100vh - 24px);padding-top:0;margin-top:12px}
 .memo-pad{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px;height:100%;display:flex;flex-direction:column;transition:border-color .3s}
-.memo-pad-title{font-size:.78rem;font-weight:800;color:var(--c);margin-bottom:8px;display:flex;align-items:center;gap:5px;transition:color .3s}
-.memo-pad textarea{flex:1;width:100%;background:#F8FAFC;border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:.78rem;line-height:1.7;padding:10px;resize:none;outline:none}
-.memo-pad textarea:focus{border-color:var(--c);background:#fff}
-.memo-pad textarea::placeholder{color:#C4C9D4}
+.memo-pad-title{font-size:.78rem;font-weight:800;color:var(--c);margin-bottom:6px;display:flex;align-items:center;gap:5px;transition:color .3s}
+.memo-toolbar{display:flex;gap:2px;padding:4px;background:#F3F4F6;border-radius:var(--rs);margin-bottom:6px;flex-wrap:wrap}
+.memo-toolbar button{background:#fff;border:1.5px solid var(--border);border-radius:4px;width:28px;height:26px;font-size:.72rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s;color:var(--text);font-family:inherit;padding:0}
+.memo-toolbar button:hover{background:var(--c-l);border-color:var(--c-m);color:var(--c)}
+.memo-toolbar button.active{background:var(--c-l);border-color:var(--c);color:var(--c)}
+.memo-toolbar .sep{width:1px;background:var(--border);margin:2px 3px;align-self:stretch}
+.memo-editor{flex:1;width:100%;background:#F8FAFC;border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:.78rem;line-height:1.7;padding:10px;overflow-y:auto;outline:none;min-height:80px}
+.memo-editor:focus{border-color:var(--c);background:#fff}
+.memo-editor:empty::before{content:attr(data-placeholder);color:#C4C9D4;pointer-events:none}
+.memo-editor ul,.memo-editor ol{margin:0 0 0 18px;padding:0}
+.memo-editor li{margin:2px 0}
 .memo-pad-footer{margin-top:6px;font-size:.6rem;color:#9CA3AF;text-align:center}
-@media(max-width:680px){.page-wrap{flex-direction:column;align-items:center;padding:0}.memo-col{position:static;width:350px;height:200px;margin:0 auto 48px;padding:0 8px}}
+@media(max-width:680px){.page-wrap{flex-direction:column;align-items:center;padding:0}.memo-col{position:static;width:350px;height:300px;margin:0 auto 48px;padding:0 8px}}
 .tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .tab{flex:1;padding:9px 4px 7px;text-align:center;font-size:.75rem;font-weight:700;color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;transition:.15s;white-space:nowrap;user-select:none}
 .tab:hover{background:var(--c-l);color:var(--c)}.tab.active{color:var(--c);border-bottom-color:var(--c)}
@@ -150,7 +157,14 @@ body.collapsed #checklist,body.collapsed #completeBanner,body.collapsed #alertBa
 <div class="memo-col">
 <div class="memo-pad">
 <div class="memo-pad-title"><span>📝</span> 業務メモ</div>
-<textarea id="sideMemo" placeholder="自由にメモを入力…"></textarea>
+<div class="memo-toolbar" id="memoToolbar">
+<button id="tbBold" title="太字 (Ctrl+B)"><b>B</b></button>
+<button id="tbHighlight" title="ハイライト">🖊️</button>
+<div class="sep"></div>
+<button id="tbUl" title="箇条書き">•</button>
+<button id="tbOl" title="番号リスト">1.</button>
+</div>
+<div class="memo-editor" id="sideMemo" contenteditable="true" data-placeholder="自由にメモを入力…"></div>
 <div class="memo-pad-footer">自動保存 ・ シフト別に保存</div>
 </div>
 </div>
@@ -179,11 +193,11 @@ tags:[['lh'],['kyou'],['toroku'],['toroku'],['annai'],['toroku'],['toroku'],['to
 };
 const SHIFTS={
 early:{label:'☀️ 早番',complete:'☀️ お疲れ様でした！',resetHour:5,resetMin:50,alertItems:[12,13],
-sk:'cl_early_data_v10',hk:'cl_early_hist_v10',rk:'cl_early_rdate_v10',mk:'cl_early_smemo_v10',ck:'cl_early_custom_v10',ok:'cl_early_order_v10'},
+sk:'cl_early_data_v11',hk:'cl_early_hist_v11',rk:'cl_early_rdate_v11',mk:'cl_early_smemo_v11',ck:'cl_early_custom_v11',ok:'cl_early_order_v11'},
 late:{label:'🌤️ 遅番',complete:'🌤️ お疲れ様でした！',resetHour:11,resetMin:50,alertItems:[],
-sk:'cl_late_data_v10',hk:'cl_late_hist_v10',rk:'cl_late_rdate_v10',mk:'cl_late_smemo_v10',ck:'cl_late_custom_v10',ok:'cl_late_order_v10'},
+sk:'cl_late_data_v11',hk:'cl_late_hist_v11',rk:'cl_late_rdate_v11',mk:'cl_late_smemo_v11',ck:'cl_late_custom_v11',ok:'cl_late_order_v11'},
 night:{label:'🌙 夜勤',complete:'🌙 お疲れ様でした！',resetHour:20,resetMin:50,alertItems:[],
-sk:'cl_night_data_v10',hk:'cl_night_hist_v10',rk:'cl_night_rdate_v10',mk:'cl_night_smemo_v10',ck:'cl_night_custom_v10',ok:'cl_night_order_v10'}
+sk:'cl_night_data_v11',hk:'cl_night_hist_v11',rk:'cl_night_rdate_v11',mk:'cl_night_smemo_v11',ck:'cl_night_custom_v11',ok:'cl_night_order_v11'}
 };
 const TAG_DEF={lh:{cls:'tag-lh',label:'🔴LH'},kyou:{cls:'tag-kyou',label:'📨共有'},annai:{cls:'tag-annai',label:'📻案内'},toroku:{cls:'tag-toroku',label:'📎登録'}};
 const WD=['日','月','火','水','木','金','土'];
@@ -211,9 +225,20 @@ return{shorts:order.map(i=>raw.shorts[i]),details:order.map(i=>raw.details[i]),t
 function todayStr(){const n=new Date();return`${n.getFullYear()}/${String(n.getMonth()+1).padStart(2,'0')}/${String(n.getDate()).padStart(2,'0')}`}
 function dObj(s){const[y,m,d]=s.split('/').map(Number);return new Date(y,m-1,d)}
 function setDate(){const n=new Date();document.getElementById('dateDisp').textContent=`${n.getFullYear()}/${String(n.getMonth()+1).padStart(2,'0')}/${String(n.getDate()).padStart(2,'0')}（${WD[n.getDay()]}）`}
-function loadMemo(){document.getElementById('sideMemo').value=localStorage.getItem(SHIFTS[currentShift].mk)||''}
-function saveMemo(){localStorage.setItem(SHIFTS[currentShift].mk,document.getElementById('sideMemo').value)}
+
+function loadMemo(){const memo=document.getElementById('sideMemo');memo.innerHTML=localStorage.getItem(SHIFTS[currentShift].mk)||''}
+function saveMemo(){localStorage.setItem(SHIFTS[currentShift].mk,document.getElementById('sideMemo').innerHTML)}
 document.getElementById('sideMemo').addEventListener('input',saveMemo);
+
+document.getElementById('tbBold').addEventListener('click',function(e){e.preventDefault();document.execCommand('bold',false,null);document.getElementById('sideMemo').focus();updateToolbar()});
+document.getElementById('tbHighlight').addEventListener('click',function(e){e.preventDefault();const sel=window.getSelection();if(sel.rangeCount&&!sel.isCollapsed){const range=sel.getRangeAt(0);const span=document.createElement('span');span.style.backgroundColor='#FEF08A';span.style.borderRadius='2px';span.style.padding='0 2px';range.surroundContents(span);saveMemo()}document.getElementById('sideMemo').focus()});
+document.getElementById('tbUl').addEventListener('click',function(e){e.preventDefault();document.execCommand('insertUnorderedList',false,null);document.getElementById('sideMemo').focus();saveMemo()});
+document.getElementById('tbOl').addEventListener('click',function(e){e.preventDefault();document.execCommand('insertOrderedList',false,null);document.getElementById('sideMemo').focus();saveMemo()});
+
+function updateToolbar(){document.getElementById('tbBold').classList.toggle('active',document.queryCommandState('bold'))}
+document.getElementById('sideMemo').addEventListener('keyup',updateToolbar);
+document.getElementById('sideMemo').addEventListener('mouseup',updateToolbar);
+
 function doReset(shift,auto){const s=SHIFTS[shift];const data=sdat(shift);const today=todayStr();const raw=getAllRaw(shift);const checked=Object.values(data).filter(v=>v?.checked).length;const h=shis(shift);h.unshift({date:today,checked,total:raw.shorts.length,data,memo:localStorage.getItem(s.mk)||''});const cut=new Date();cut.setDate(cut.getDate()-30);sv(s.hk,h.filter(x=>dObj(x.date)>=cut));sv(s.sk,{});sv(s.rk,today);localStorage.setItem(s.mk,'');if(shift===currentShift){buildList();loadMemo()}if(auto){const b=document.getElementById('resetBanner');b.textContent=`✅ ${SHIFTS[shift].label} 自動リセット完了`;b.style.display='block';setTimeout(()=>b.style.display='none',4000)}}
 function checkAutoReset(shift){const s=SHIFTS[shift];if(ld(s.rk)===todayStr())return;const n=new Date();if(n.getHours()>s.resetHour||(n.getHours()===s.resetHour&&n.getMinutes()>=s.resetMin))doReset(shift,true)}
 setInterval(()=>{const n=new Date();Object.keys(SHIFTS).forEach(shift=>{const s=SHIFTS[shift];if(n.getHours()===s.resetHour&&n.getMinutes()===s.resetMin&&ld(s.rk)!==todayStr())doReset(shift,true)})},60000);
